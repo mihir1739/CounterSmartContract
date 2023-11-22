@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { Layout, Row, Col, Button, Table,Typography,Space } from "antd";
+import { Layout, Row, Col, Table} from "antd";
 import { WalletSelector } from "@aptos-labs/wallet-adapter-ant-design";
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
 import { Provider, Network } from "aptos";
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
-const { Title, Paragraph, Text, Link } = Typography;
 import "./App.css";
 interface User {
   name: string;
@@ -14,7 +13,7 @@ interface User {
 function App() {
   const provider = new Provider(Network.DEVNET);
   const { account } = useWallet();
-  const [users, setUsers]  =useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [accountHasCounter, setAccountHasCounter] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
   const moduleAddress = "0xfbd58ddf3ae5e6c8e05de5afad1ee018ca62759fd10799628d55944fbe8a575e";
@@ -123,43 +122,43 @@ function App() {
     getUsers();
   }, [account?.address]);
   return (
-    <> 
-      <Layout style={{ backgroundColor: "#5D548C", width: '100%'}}>
+    <>
+      <Layout style={{ backgroundColor: "#5D548C", width: '100%' }}>
         <Row align="middle">
           <Col span={10} offset={2}>
             <h1>Our Counter</h1>
           </Col>
-          <Col span={12} style={{ textAlign: "right", paddingRight: "150px"}}>
+          <Col span={12} style={{ textAlign: "right", paddingRight: "150px" }}>
             <WalletSelector />
           </Col>
         </Row>
       </Layout>
-          <center><Title style={{ color: 'aquamarine', fontSize: '200px'}}>{count}</Title></center>
-      <div style={{ justifyContent: 'space-between' , margin: "10rem", display: "flex"}}>
-          <button onClick={getCounter} style={{ padding: "30px", fontSize: '30px',backgroundColor: "#45C3B8	", borderRadius: "20px", color:'white'}}>
-            Get count / Refresh Count
-          </button>
-          <button onClick={increment} style={{ padding: "30px", fontSize: '30px',backgroundColor: "#45C3B8", borderRadius: "20px", color:'white'}}>
-            Increment
-          </button>
-    </div>
-      
+      <center><h1 style={{ color: 'aquamarine', fontSize: '200px' }}>{count}</h1></center>
+      <div style={{ justifyContent: 'space-between', margin: "10rem", display: "flex" }}>
+        <button onClick={getCounter} style={{ padding: "30px", fontSize: '30px', backgroundColor: "#45C3B8	", borderRadius: "20px", color: 'white' }}>
+          Get count / Refresh Count
+        </button>
+        <button onClick={increment} style={{ padding: "30px", fontSize: '30px', backgroundColor: "#45C3B8", borderRadius: "20px", color: 'white' }}>
+          Increment
+        </button>
+      </div>
+
       {!accountHasCounter && (
         <Row gutter={[0, 32]} style={{ marginTop: "2rem" }}>
           <Col span={8} offset={8}>
-          {/* <button onClick={getCounter} style={{ padding: "30px", fontSize: '30px',backgroundColor: "#45C3B8	", borderRadius: "20px", color:'white'}}>
-            Initiate Counter
-          </button> */} 
+            <button onClick={addCounter} style={{ padding: "30px", fontSize: '30px', backgroundColor: "#45C3B8	", borderRadius: "20px", color: 'white' }}>
+              Initiate Counter
+            </button>
           </Col>
         </Row>
       )}
-        <div style={{ margin: "10rem" }}>
-          <center><h1  style={{ fontSize: '50px'}}>Leaderboard</h1></center>
-          <Table dataSource={users} columns={columns}></Table>
-          <center><button onClick={getUsers}style={{ padding: "30px", fontSize: '30px',backgroundColor: "#45C3B8	", borderRadius: "20px", color:'white'}}>
-            Refresh LeaderBoard
-          </button></center>
-        </div>
+      <div style={{ margin: "10rem" }}>
+        <center><h1 style={{ fontSize: '50px' }}>Leaderboard</h1></center>
+        <Table dataSource={users} columns={columns}></Table>
+        <center><button onClick={getUsers} style={{ padding: "30px", fontSize: '30px', backgroundColor: "#45C3B8	", borderRadius: "20px", color: 'white' }}>
+          Refresh LeaderBoard
+        </button></center>
+      </div>
     </>
   )
 }

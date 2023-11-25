@@ -16,7 +16,7 @@ function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [accountHasCounter, setAccountHasCounter] = useState<boolean>(false);
   const [count, setCount] = useState<number>(0);
-  const moduleAddress = "0xfbd58ddf3ae5e6c8e05de5afad1ee018ca62759fd10799628d55944fbe8a575e";
+  const moduleAddress = "0x7e94dcde73c5fae22ffe1519c0f374b540c7fcb641110e3a9be7d87adc0853ff";
   const columns = [
     {
       title: 'Address',
@@ -70,8 +70,8 @@ function App() {
     };
     try {
       let x: any = await provider.view(payload);
-      x[0]['data'].map(() => {
-        users_temp.push({ name: String(x[0]['data'][0]['key']), score: Number(x[0]['data'][0]['value']) })
+      x[0]['data'].map((object:any) => {
+        users_temp.push({ name: String(object['key']), score: Number(object['value']) })
       });
       users_temp.sort((a, b) => b.score - a.score);
       setUsers(users_temp);
@@ -109,8 +109,7 @@ function App() {
     try {
       let x: any = await provider.view(payload);
       let num = Number(x[0]);
-      setCount(num)
-      console.log(x);
+      setCount(num);
     } catch (e: any) {
       console.log(e);
       setAccountHasCounter(false);
@@ -154,7 +153,7 @@ function App() {
       )}
       <div style={{ margin: "10rem" }}>
         <center><h1 style={{ fontSize: '50px' }}>Leaderboard</h1></center>
-        <Table dataSource={users} columns={columns}></Table>
+        <Table dataSource={users} columns={columns} rowKey="name"></Table>
         <center><button onClick={getUsers} style={{ padding: "30px", fontSize: '30px', backgroundColor: "#45C3B8	", borderRadius: "20px", color: 'white' }}>
           Refresh LeaderBoard
         </button></center>

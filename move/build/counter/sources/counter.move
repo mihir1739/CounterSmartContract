@@ -1,11 +1,10 @@
 module counter_addr::counter {
     use std::simple_map::{SimpleMap,Self};
     use std::signer;
-
     #[test_only]
     use std::account;
 
-    const ADDR:  address = @0xfbd58ddf3ae5e6c8e05de5afad1ee018ca62759fd10799628d55944fbe8a575e;
+    const ADDR:  address = @0x7e94dcde73c5fae22ffe1519c0f374b540c7fcb641110e3a9be7d87adc0853ff;
     struct Counter has key ,store
     { 
         click_counter: u128,
@@ -24,10 +23,13 @@ module counter_addr::counter {
         });
     }
 
-    public entry fun create_usercounter(account: &signer)
+    public entry fun create_usercounter(account: &signer) acquires Counter
     {
+        let account_address = signer::address_of(account);
+        let m_ref = &mut borrow_global_mut<Counter>(ADDR).click_map;
+        simple_map::add(m_ref,account_address,0);
         move_to(account, UserCounter {
-            counter : 0,
+            counter : 0
         });
     }
 
@@ -72,7 +74,7 @@ module counter_addr::counter {
     }
 
 
-    #[test(admin = @0xfbd58ddf3ae5e6c8e05de5afad1ee018ca62759fd10799628d55944fbe8a575e)]
+    #[test(admin = @0x7e94dcde73c5fae22ffe1519c0f374b540c7fcb641110e3a9be7d87adc0853ff)]
     public entry fun test_flow(admin: signer) acquires Counter,UserCounter {
         let addr = @0x7;
         let acc = account::create_account_for_test(signer::address_of(&admin));
